@@ -1,3 +1,8 @@
 ynab:
   username: your@login.com
   password: yourpassword
+database:
+  host: 127.0.0.1
+  username: whatever
+  password: password1
+  name: ynab
