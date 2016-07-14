@@ -35,7 +35,7 @@ class YNAB
                             }
   end
 
-  def export_data
+  def data
     # Build request object
     request = {
         budget_version_id: @login_response.body['budget_version']['id'],
@@ -52,10 +52,9 @@ class YNAB
         'X-Session-Token' => @login_response.body['session_token'],
         'X-YNAB-Device-Id' => @device_id,
         'X-YNAB-Client-Request-Id' => SecureRandom.uuid,
-        #'X-YNAB-Client-App-Version' => 'v1.11838',
+        #'X-YNAB-Client-App-Version' => 'v1.11838', # Excluding the version looks like we will always get data
         'Accept' => 'application/json'
     }
-
 
     response = Unirest.post @url_catalog,
                             parameters: {
@@ -63,12 +62,14 @@ class YNAB
                                 :request_data => request.to_json
                             },
                             headers: headers
-    output = File.open 'output.json', 'wb'
-    output.write response.body.to_json
-    output.close
+    # Returns a hashed up json object
+    response.body
   end
 end
 
 client = YNAB.new
 client.login
-client.export_data
+
+output = File.open 'output.json', 'wb'
+output.write client.data.to_json
+output.close

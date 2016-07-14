@@ -8,8 +8,6 @@ be_monthly_budgets
 be_monthly_subcategory_budget_calculations
 be_monthly_subcategory_budgets
 be_settings
-
---- txn related
 be_subtransactions
 be_payee_locations
 be_scheduled_subtransactions
